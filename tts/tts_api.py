@@ -144,7 +144,7 @@ class TTSClient:
         
         # 发送POST请求（流模式）
         response = requests.post(self.tts_endpoint, json=data, stream=True)
-        
+        logger.debug(f"开始合成音频: {response.json()}")
         if response.status_code == 200:
             # 逐块返回音频数据
             for chunk in response.iter_content(chunk_size=chunk_size):
