@@ -28,10 +28,12 @@ class MyPlugin(Star):
             prompt=message_str,
         )
 
+        logger.info(llm_resp)
+
         logger.info(message_chain)
         client = TTSClient()
-        client.synthesize_and_play_realtime(message_str)  # 调用 TTSClient 将文本转换为语音并发送
-        yield event.plain_result(llm_resp) # 发送一条纯文本消息
+        client.synthesize_and_play_realtime(llm_resp.completion_text)  # 调用 TTSClient 将文本转换为语音并发送
+        yield event.plain_result(llm_resp.completion_text) # 发送一条纯文本消息
 
 
     async def terminate(self):
