@@ -5,7 +5,7 @@ from io import BytesIO
 import numpy as np
 import soundfile as sf
 import wave
-from loguru import logger
+from astrbot.api import logger
 
 try:
     import sounddevice as sd
@@ -54,6 +54,7 @@ class TTSClient:
             Exception: 请求失败时抛出异常
         """
         # 构建请求数据
+        logger.debug(f"开始合成音频: {text}")
         data = {
             "text": text,
             "text_lang": text_lang,
@@ -80,7 +81,7 @@ class TTSClient:
         
         # 发送POST请求
         response = requests.post(self.tts_endpoint, json=data)
-        print("TTS请求成功，状态码:", response.status_code)
+        
         if response.status_code == 200:
             # 保存音频文件
             with open(output_path, "wb") as f:
