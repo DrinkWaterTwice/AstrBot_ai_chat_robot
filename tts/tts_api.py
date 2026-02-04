@@ -80,7 +80,7 @@ class TTSClient:
         
         # 发送POST请求
         response = requests.post(self.tts_endpoint, json=data)
-        
+        print("TTS请求成功，状态码:", response.status_code)
         if response.status_code == 200:
             # 保存音频文件
             with open(output_path, "wb") as f:
