@@ -89,7 +89,7 @@ class ProcessLLMRequest:
         runtime = self.skills_cfg.get("runtime", "local")
         skills = self.skill_manager.list_skills(active_only=True, runtime=runtime)
         
-        if runtime == "sandbox" and not self.sandbox_config.get("enabled", False):
+        if runtime == "sandbox" and not self.sandbox_cfg.get("enabled", False):
             logger.warning(
                 "Skills runtime is set to sandbox, but sandbox mode is disabled, will skip skills prompt injection.",
             )
