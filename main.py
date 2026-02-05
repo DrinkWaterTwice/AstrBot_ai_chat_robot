@@ -2,6 +2,7 @@ from astrbot.api.event import filter, AstrMessageEvent, MessageEventResult
 from astrbot.api.star import Context, Star, register
 from astrbot.api import logger
 from .tts.tts_api import TTSClient
+from astrbot.api.provider import LLMResponse, ProviderRequest
 from .process_llm_request import ProcessLLMRequest
 from .long_term_memory import LongTermMemory
 
