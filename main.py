@@ -36,20 +36,33 @@ class MyPlugin(Star):
         message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
 
         umo = event.unified_msg_origin
-        provider_id = await self.context.get_current_chat_provider_id(umo=umo)
-        message_str = message_str.removeprefix("yuyin ") # 去掉命令前缀，获取实际消息内容
-        llm_resp = await self.context.llm_generate(
-            chat_provider_id=provider_id, # 聊天模型 ID
-            prompt=message_str,
+        # provider_id = await self.context.get_current_chat_provider_id(umo=umo)
+        message_str = message_str.removeprefix("luo ") # 去掉命令前缀，获取实际消息内容
+        # llm_resp = await self.context.llm_generate(
+        #     chat_provider_id=provider_id, # 聊天模型 ID
+        #     prompt=message_str,
+        # )
+
+        session_curr_cid = await self.context.conversation_manager.get_curr_conversation_id(
+            event.unified_msg_origin,
+        )
+        conv = await self.context.conversation_manager.get_conversation(
+            event.unified_msg_origin,
+            session_curr_cid,
         )
 
-        logger.info(llm_resp)
+        yield event.request_llm(
+            prompt=message_str,
+            func_tool_manager=self.context.get_llm_tool_manager(),
+            session_id=event.session_id,
+            conversation=conv,
+        )
 
 
-        logger.info(message_chain)
-        client = TTSClient()
-        client.synthesize_and_play_realtime(llm_resp.completion_text)  # 调用 TTSClient 将文本转换为语音并发送
-        yield event.plain_result(llm_resp) # 发送一条纯文本消息
+        # logger.info(llm_resp)
+
+
+
 
 
     async def terminate(self):
@@ -85,3 +98,9 @@ class MyPlugin(Star):
                     await self.ltm.remove_session(event)
             except Exception as e:
                 logger.error(f"ltm: {e}")
+
+    @filter.on_llm_response()
+    async def handle_message(self, event: AstrMessageEvent, resp: LLMResponse):
+        logger.info(resp.completion_text)
+        client = TTSClient()
+        client.synthesize_and_play_realtime(resp.completion_text)  # 调用 TTSClient 将文本转换为语音并发送
