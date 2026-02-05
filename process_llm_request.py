@@ -26,6 +26,8 @@ class ProcessLLMRequest:
         if not self.timezone:
             self.timezone = None
 
+        self.skill_manager = SkillManager()
+
     def _apply_local_env_tools(self, req: ProviderRequest):
         """Add local environment tools to the provider request."""
         if req.func_tool is None:
