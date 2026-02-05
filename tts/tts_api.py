@@ -154,7 +154,7 @@ class TTSClient:
             error_msg = response.json() if response.headers.get('content-type', '').startswith('application/json') else response.text
             raise Exception(f"TTS请求失败: {error_msg}")
 
-    def synthesize_and_play_realtime(self, text, ref_audio_path="data/fairy_01_疑问.wav", prompt_text="替小师傅们买水，连续三次中了再来一瓶，这难道就是《天虚问道录》里所谓的气运之子的机缘？", **kwargs):
+    async def synthesize_and_play_realtime(self, text, ref_audio_path="data/fairy_01_疑问.wav", prompt_text="替小师傅们买水，连续三次中了再来一瓶，这难道就是《天虚问道录》里所谓的气运之子的机缘？", **kwargs):
         """
         实时合成并播放TTS音频
         

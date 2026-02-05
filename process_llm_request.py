@@ -124,7 +124,7 @@ class ProcessLLMRequest:
         if not req.func_tool:
             req.func_tool = toolset
         else:
-            req.func_tool.merge(toolset)
+            req.func_tool.get_full_tool_set().merge(toolset)
         # 记录工具。暂时不知道有没有其他作用
         event.trace.record(
             "sel_persona", persona_id=persona_id, persona_toolset=toolset.names()

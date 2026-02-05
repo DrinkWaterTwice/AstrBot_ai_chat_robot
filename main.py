@@ -31,17 +31,10 @@ class MyPlugin(Star):
     @filter.command("luo")
     async def yuyin(self, event: AstrMessageEvent):
         """这是一个语音指令, 会将用户发送的消息转换为语音并回复""" # 这是 handler 的描述，将会被解析方便用户了解插件内容。建议填写。
-        user_name = event.get_sender_name()
         message_str = event.message_str # 用户发的纯文本消息字符串
-        message_chain = event.get_messages() # 用户所发的消息的消息链 # from astrbot.api.message_components import *
 
-        umo = event.unified_msg_origin
-        # provider_id = await self.context.get_current_chat_provider_id(umo=umo)
         message_str = message_str.removeprefix("luo ") # 去掉命令前缀，获取实际消息内容
-        # llm_resp = await self.context.llm_generate(
-        #     chat_provider_id=provider_id, # 聊天模型 ID
-        #     prompt=message_str,
-        # )
+
 
         session_curr_cid = await self.context.conversation_manager.get_curr_conversation_id(
             event.unified_msg_origin,
