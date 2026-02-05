@@ -1,5 +1,4 @@
 soundfile>=0.13.1
-loguru>=0.5.3
 numpy>=2.4.2
 sounddevice>=0.5.3
 requests>=2.31.0
